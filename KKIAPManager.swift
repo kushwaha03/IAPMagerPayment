@@ -12,12 +12,33 @@ private override init() {
     SKPaymentQueue.default().add(self)
 
 }
+    fileprivate var productID = ""
+
     fileprivate var productsRequest = SKProductsRequest()
 
     var iapProducts = [SKProduct]()
     let CONSUMABLE_PURCHASE_PRODUCT_ID = "PRODUCT_ID1"
     let NON_CONSUMABLE_PURCHASE_PRODUCT_ID = "PRODUCT_ID2"
-    let AUTO_CONSUMABLE_PURCHASE_PRODUCT_ID = "PRODUCT_ID3"
+    let AUTO_CONSUMABLE_PURCHASE_PRODUCT_ID = "PRODUCT_ID3
+
+    // MARK: - MAKE PURCHASE OF A PRODUCT
+    func canMakePurchases() -> Bool {  return SKPaymentQueue.canMakePayments()  }
+
+    func purchaseMyProduct(index: Int){
+        if iapProducts.count == 0 { return }
+        
+        if self.canMakePurchases() {
+            let product = iapProducts[index]
+            let payment = SKPayment(product: product)
+            SKPaymentQueue.default().add(self)
+            SKPaymentQueue.default().add(payment)
+            
+            print("PRODUCT TO PURCHASE: \(product.productIdentifier)")
+            productID = product.productIdentifier
+        } else {
+            purchaseStatusBlock?(.disabled)
+        }
+    }
 
 
     // MARK: - FETCH AVAILABLE IAP PRODUCTS
