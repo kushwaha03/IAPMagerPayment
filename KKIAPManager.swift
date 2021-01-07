@@ -12,6 +12,26 @@ private override init() {
     SKPaymentQueue.default().add(self)
 
 }
+    fileprivate var productsRequest = SKProductsRequest()
+
+    var iapProducts = [SKProduct]()
+    let CONSUMABLE_PURCHASE_PRODUCT_ID = "PRODUCT_ID1"
+    let NON_CONSUMABLE_PURCHASE_PRODUCT_ID = "PRODUCT_ID2"
+    let AUTO_CONSUMABLE_PURCHASE_PRODUCT_ID = "PRODUCT_ID3"
+
+
+    // MARK: - FETCH AVAILABLE IAP PRODUCTS
+    func fetchAvailableProducts(){
+        
+        // Put here your IAP Products ID's
+        let productIdentifiers = NSSet(objects: CONSUMABLE_PURCHASE_PRODUCT_ID,NON_CONSUMABLE_PURCHASE_PRODUCT_ID,AUTO_CONSUMABLE_PURCHASE_PRODUCT_ID
+        )
+        
+        productsRequest = SKProductsRequest(productIdentifiers: productIdentifiers as! Set<String>)
+        productsRequest.delegate = self
+        productsRequest.start()
+    }
+
 
 // MARK: - SKProductsRequestDelegate
 
